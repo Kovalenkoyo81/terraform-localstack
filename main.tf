@@ -10,6 +10,8 @@ module "worker" {
  instance_type = "t3.small"
  environment   = var.environment
  app_name      = "worker"
+ subnet_id = module.network.subnet_id
+ security_group_ids = [module.network.security_group_id]
 }
 
 module "cluster" {
@@ -44,4 +46,18 @@ value = module.worker.instance_id
 
 output "cluster_ids" {
   value = {for name, module_instance in  module.cluster : name=> module_instance.instance_id}
+}
+
+
+module "network" {
+  source      = "./modules/network"
+  environment = var.environment
+}
+
+output "vpc_id" {
+  value = module.network.vpc_id
+}
+
+output "subnet_id" {
+  value = module.network.subnet_id
 }
