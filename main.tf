@@ -28,6 +28,12 @@ module "app_db" {
   environment = var.environment
 }
 
+
+data "aws_vpc" "default" {
+  default = true
+}
+
+
 output "server_id" {
   value = module.app_server.instance_id
 }
@@ -60,4 +66,13 @@ output "vpc_id" {
 
 output "subnet_id" {
   value = module.network.subnet_id
+}
+
+
+output "default_vpc_id" {
+  value = data.aws_vpc.default.id
+}
+
+output "default_vpc_cidr" {
+  value = data.aws_vpc.default.cidr_block
 }
