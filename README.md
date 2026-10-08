@@ -1,4 +1,6 @@
-# terraform
+# terraform-localstack
+
+[![CI](https://github.com/Kovalenkoyo81/terraform-localstack/actions/workflows/ci.yml/badge.svg)](https://github.com/Kovalenkoyo81/terraform-localstack/actions/workflows/ci.yml)
 
 Учебная инфраструктура на LocalStack: AWS-совместимый API локально, тот же
 синтаксис и та же логика, что в реальном AWS.
@@ -46,3 +48,8 @@ terraform fmt -recursive -check
 terraform validate
 tflint --recursive
 ```
+
+CI запускает их на каждый PR и push в `main`. LocalStack из GitHub недоступен,
+поэтому в CI `terraform init -backend=false`: бэкенд пропускается, провайдеры
+ставятся по `.terraform.lock.hcl`. `plan` в CI не выполняется — ему нужен
+работающий API.
