@@ -6,17 +6,17 @@ module "app_server" {
 }
 
 module "worker" {
- source        = "./modules/ec2"
- instance_type = "t3.small"
- environment   = var.environment
- app_name      = "worker"
- subnet_id = module.network.subnet_id
- security_group_ids = [module.network.security_group_id]
+  source             = "./modules/ec2"
+  instance_type      = "t3.small"
+  environment        = var.environment
+  app_name           = "worker"
+  subnet_id          = module.network.subnet_id
+  security_group_ids = [module.network.security_group_id]
 }
 
 module "cluster" {
   source        = "./modules/ec2"
-  for_each         = toset(var.clusters_nodes)
+  for_each      = toset(var.clusters_nodes)
   instance_type = "t3.micro"
   environment   = var.environment
   app_name      = each.value
@@ -47,11 +47,11 @@ output "db_endpoint" {
 }
 
 output "worker_id" {
-value = module.worker.instance_id
+  value = module.worker.instance_id
 }
 
 output "cluster_ids" {
-  value = {for name, module_instance in  module.cluster : name=> module_instance.instance_id}
+  value = { for name, module_instance in module.cluster : name => module_instance.instance_id }
 }
 
 

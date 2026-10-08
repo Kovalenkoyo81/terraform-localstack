@@ -7,6 +7,6 @@ variable "environment" {
 
 
 variable "clusters_nodes" {
-  type = list(string)
-  default = ["node-0","node-1","node-2"]
+  type    = list(string)
+  default = ["node-0", "node-1", "node-2"]
 }
