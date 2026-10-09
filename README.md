@@ -33,13 +33,28 @@
 
 ## Запуск
 
-Требует запущенного LocalStack с сервисами s3, dynamodb, ec2, а также
-заранее созданных бакета `terraform-state` и таблицы `terraform_locks`.
+Требует запущенного LocalStack с сервисами s3, dynamodb, ec2.
+
+Сначала хранилище для стейта — отдельная конфигурация `bootstrap/` со своим
+локальным стейтом (бакет нельзя описывать стейтом, который лежит в этом же
+бакете):
+
+```bash
+terraform -chdir=bootstrap init
+terraform -chdir=bootstrap apply    # бакет terraform-state + таблица terraform_locks
+```
+
+Затем основной проект:
 
 ```bash
 terraform init
 terraform plan
 ```
+
+LocalStack Community не сохраняет данные при перезапуске. Если пропал бакет
+со стейтом: `apply` в `bootstrap/`, удалить устаревшие `*-md5` записи из
+`terraform_locks`, `terraform init -reconfigure`, уцелевшие ресурсы вернуть в
+стейт через `terraform import`, остальное — `apply`.
 
 ## Проверки
 
