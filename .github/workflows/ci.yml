@@ -40,6 +40,12 @@ jobs:
       - name: terraform validate
         run: terraform validate
 
+      # Отдельная конфигурация со своим (локальным) стейтом
+      - name: terraform validate (bootstrap)
+        run: |
+          terraform -chdir=bootstrap init -backend=false -input=false
+          terraform -chdir=bootstrap validate
+
       - name: tflint
         run: |
           tflint --init

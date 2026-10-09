@@ -12,7 +12,9 @@ updates:
 
   # Provider versions in .terraform.lock.hcl
   - package-ecosystem: terraform
-    directory: /
+    directories:
+      - /
+      - /bootstrap
     schedule:
       interval: weekly
     ignore:
